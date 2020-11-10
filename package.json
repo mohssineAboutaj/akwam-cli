@@ -1,0 +1,16 @@
+{
+  "name": "akwam-cli",
+  "version": "1.0.0",
+  "description": "A CLI (Command Line) based project to download movies, series, ... from https://old.akwam.co",
+  "main": "index.js",
+  "author": "Mohssine Aboutaj",
+  "license": "MIT",
+  "private": false,
+  "devDependencies": {
+    "axios": "^0.21.0",
+    "cheerio": "^1.0.0-rc.3",
+    "inquirer": "^7.3.3",
+    "lodash": "^4.17.20",
+    "puppeteer": "^5.4.1"
+  }
+}
