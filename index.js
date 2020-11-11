@@ -2,7 +2,7 @@
 const { prompt } = require("inquirer");
 const { startCase, isEmpty, toFixed } = require("lodash");
 const puppeteer = require("puppeteer");
-const dl = require("download-file-with-progressbar");
+const downloadFileWithProgressbar = require("download-file-with-progressbar");
 const { SingleBar, Presets } = require("cli-progress");
 const { cyan, green, grey } = require("colors");
 const { existsSync, mkdirSync } = require("fs");
@@ -18,6 +18,7 @@ prompt([
   {
     type: "input",
     name: "title",
+    default: "conan",
     message: startCase("what do you search for") + "?",
     validate: (val) => {
       if (isEmpty(val)) {
@@ -94,20 +95,30 @@ prompt([
             await page.goto(encodeURI(link.href), gotoGlobalOptions);
 
             // extract elements
-            await page.$eval("#timerHolder", (elem) => {
+            await page.$eval("body", (elem) => {
               setTimeout(() => {
-                console.log(elem.querySelector("a").getAttribute("href"));
+                console.log(
+                  elem.querySelector("#timerHolder a").getAttribute("href") +
+                    " " +
+                    elem
+                      .querySelector(".sub_title.sub_download_title")
+                      .querySelector("p b")
+                      .textContent.trim(),
+                );
               }, 5000);
             });
             await page.on("console", async (messages) => {
+              const out = await messages._text.trim().split(" ");
+
               // file url
-              const fileURL = await messages._text;
+              const fileURL = await out[0];
+              const fileSIZE = await out[1];
 
               console.log(exact.name + " | " + link.label || exact.name);
               // new instance from cli-progress
               const downloadProgress = await new SingleBar(
                 {
-                  format: `${startCase("progress")} |${cyan(
+                  format: `${startCase("size")}: ${fileSIZE} |${cyan(
                     "{bar}",
                   )}| {percentage}%`,
                   // format: (
@@ -148,12 +159,12 @@ prompt([
               await downloadProgress.start(100, 0);
 
               // check outputDir exists
-              if (outputDir != "./" && !existsSync(outputDir)) {
+              if (outputDir != "./" && (await !(await existsSync(outputDir)))) {
                 await mkdirSync(outputDir);
               }
 
               // download file
-              await dl(fileURL, {
+              await downloadFileWithProgressbar(fileURL, {
                 dir: outputDir || "./",
                 onDone: async () => {
                   await downloadProgress.stop();
