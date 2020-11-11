@@ -92,3 +92,7 @@ sw.*
 
 # Local Netlify folder
 .netlify
+
+# videos
+*.mkv
+*.mp4
