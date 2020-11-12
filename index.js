@@ -1,6 +1,6 @@
 // Dependencies
 const { prompt } = require("inquirer");
-const { startCase, isEmpty, toFixed } = require("lodash");
+const { startCase, isEmpty } = require("lodash");
 const puppeteer = require("puppeteer");
 const downloadFileWithProgressbar = require("download-file-with-progressbar");
 const { SingleBar, Presets } = require("cli-progress");
@@ -18,7 +18,6 @@ prompt([
   {
     type: "input",
     name: "title",
-    default: "conan",
     message: startCase("what do you search for") + "?",
     validate: (val) => {
       if (isEmpty(val)) {
@@ -75,7 +74,7 @@ prompt([
           await page.goto(encodeURI(exact.href), gotoGlobalOptions);
 
           // extract elements
-          const list = await page.evaluate(async () => {
+          let list = await page.evaluate(async () => {
             return await Array.from(
               document.querySelectorAll(".sub_episode_links"),
               (element) => {
@@ -86,6 +85,9 @@ prompt([
               },
             );
           });
+
+          // sort
+          list = list.reverse();
 
           // check if there is a result
           if (await list.length) {
@@ -160,7 +162,7 @@ prompt([
                 });
               } else {
                 await console.log(green(startCase("download finish")));
-                // await browser.close();
+                await browser.close();
               }
             }
             await downloadFunction(0);
