@@ -2,8 +2,16 @@
 const { prompt } = require("inquirer");
 const { startCase, isEmpty } = require("lodash");
 const puppeteer = require("puppeteer");
-const { yellow } = require("colors");
-const { downloadFunction, URL, gotoGlobalOptions } = require("./helpers");
+const downloadFileWithProgressbar = require("download-file-with-progressbar");
+const { SingleBar, Presets } = require("cli-progress");
+const { cyan, green, grey, yellow } = require("colors");
+const { existsSync, mkdirSync } = require("fs");
+
+// some helpers & constants
+const URL = "https://old.akwam.co";
+const gotoGlobalOptions = {
+  waitUntil: "networkidle2",
+};
 
 // start user inputs collecting
 prompt([
@@ -83,6 +91,80 @@ prompt([
 
           // check if there is a result
           if (await list.length) {
+            async function downloadFunction(index) {
+              if (index < list.length) {
+                let link = list[index];
+                let page = await browser.newPage();
+                await page.goto(encodeURI(link.href), gotoGlobalOptions);
+
+                // extract elements
+                await page.$eval("body", (elem) => {
+                  setTimeout(() => {
+                    console.log(
+                      elem
+                        .querySelector("#timerHolder a")
+                        .getAttribute("href") +
+                        " " +
+                        elem
+                          .querySelector(".sub_title.sub_download_title")
+                          .querySelector("p b")
+                          .textContent.trim(),
+                    );
+                  }, 5000);
+                });
+                await page.on("console", async (messages) => {
+                  const out = await messages._text.trim().split(" ");
+
+                  // file url
+                  const fileURL = await out[0];
+                  const fileSIZE = await out[1];
+
+                  console.log(exact.name + " | " + link.name || exact.name);
+                  // new instance from cli-progress
+                  const downloadProgress = await new SingleBar(
+                    {
+                      format: `${startCase("size")}: ${fileSIZE} |${cyan(
+                        "{bar}",
+                      )}| {percentage}% | ETA: {eta_formatted}`,
+                      barCompleteChar: "\u2588",
+                      barIncompleteChar: "\u2591",
+                      hideCursor: true,
+                    },
+                    Presets.shades_classic,
+                  );
+
+                  // set start & end value for the progress
+                  await downloadProgress.start(100, 0);
+
+                  // check outputDir exists
+                  if (outputDir != "./" && !(await existsSync(outputDir))) {
+                    await mkdirSync(outputDir);
+                  }
+
+                  // download file
+                  await downloadFileWithProgressbar(fileURL, {
+                    dir: outputDir || "./",
+                    onDone: async () => {
+                      await downloadProgress.stop();
+                      if (exact.name.search(/فيلم|الفيلم|فلم/gi) >= 0) {
+                        await browser.close();
+                      } else {
+                        await downloadFunction(index + 1);
+                      }
+                    },
+                    onError: (err) => {
+                      console.log("error", err);
+                    },
+                    onProgress: async (curr, total) => {
+                      await downloadProgress.update((curr / total) * 100);
+                    },
+                  });
+                });
+              } else {
+                await console.log(green(startCase("download finish")));
+                await browser.close();
+              }
+            }
             if (exact.name.search(/فيلم|الفيلم|فلم/gi) >= 0) {
               prompt({
                 type: "list",
@@ -104,11 +186,11 @@ prompt([
               }).then(async ({ eleQuality }) => {
                 list.length = await 0;
                 await list.push(eleQuality);
-                await downloadFunction(browser, list, exact, outputDir, true);
+                await downloadFunction(0);
               });
             } else {
               console.log(yellow(startCase(`items count: ${list.length}`)));
-              await downloadFunction(browser, list, exact, outputDir, false);
+              await downloadFunction(0);
             }
           } else {
             console.log(startCase("something went wrong, please try again"));
