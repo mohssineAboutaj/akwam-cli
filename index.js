@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 // Dependencies
 const { prompt } = require("inquirer");
 const { startCase, isEmpty } = require("lodash");
