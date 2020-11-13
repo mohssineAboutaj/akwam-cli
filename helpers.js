@@ -3,7 +3,6 @@ const { cyan, green } = require("colors");
 const downloadFileWithProgressbar = require("download-file-with-progressbar");
 const { startCase } = require("lodash");
 const { existsSync, mkdirSync } = require("fs");
-const { prompt } = require("inquirer");
 
 // goto() global configurations/options
 const gotoGlobalOptions = {
@@ -14,7 +13,7 @@ const gotoGlobalOptions = {
 const URL = "https://old.akwam.co";
 
 /**
- * @description the download function
+ * @description the download function that show user a list of choices to customize his downloads
  *
  * @param {Puppeteer.Launch} browser
  * @param {Array} list
@@ -23,7 +22,7 @@ const URL = "https://old.akwam.co";
  * @param {Boolean} isFilm
  * @param {Number} index
  */
-async function downloader(
+async function downloadFunction(
   browser,
   list,
   parent,
@@ -103,57 +102,6 @@ async function downloader(
   } else {
     await console.log(green(startCase("download finish")));
     await browser.close();
-  }
-}
-
-/**
- * @description the download function that show user a list of choices to customize his downloads
- *
- * @param {Puppeteer.Launch} browser
- * @param {Array} list
- * @param {Object} parent
- * @param {String} outputDir
- * @param {Boolean} isFilm
- * @param {Number} index
- */
-async function downloadFunction(
-  browser,
-  list,
-  parent,
-  outputDir = "./",
-  isFilm = false,
-  index = 0,
-) {
-  // if not a movie show rawlist
-  if (!isFilm) {
-    prompt({
-      type: "list",
-      name: "downloadType",
-      message: startCase("choose download type") + "?",
-      choices: ["all", "custom"], //["تحميل الكل", "تخصيص"],
-    }).then(async ({ downloadType }) => {
-      if (downloadType === "custom") {
-        prompt({
-          type: "checkbox",
-          name: "files",
-          message: startCase("choose to download") + "?",
-          choices: list,
-        }).then(async ({ files }) => {
-          await downloader(
-            browser,
-            list.filter((el) => files.includes(el.name)),
-            parent,
-            outputDir,
-            isFilm,
-            index,
-          );
-        });
-      } else {
-        await downloader(browser, list, parent, outputDir, isFilm, index);
-      }
-    });
-  } else {
-    await downloader(browser, list, parent, outputDir, isFilm, index);
   }
 }
 

@@ -86,7 +86,7 @@ prompt([
             if (exact.name.search(/فيلم|الفيلم|فلم/gi) >= 0) {
               prompt({
                 type: "list",
-                name: "eleQuality",
+                name: "videoQuality",
                 choices: list,
                 filter: (c) => {
                   return list.find((el) => el.name === c);
@@ -101,14 +101,39 @@ prompt([
                   }
                 },
                 message: startCase("choose the movie quality"),
-              }).then(async ({ eleQuality }) => {
+              }).then(async ({ videoQuality }) => {
                 list.length = await 0;
-                await list.push(eleQuality);
+                await list.push(videoQuality);
                 await downloadFunction(browser, list, exact, outputDir, true);
               });
             } else {
               console.log(yellow(startCase(`items count: ${list.length}`)));
-              await downloadFunction(browser, list, exact, outputDir, false);
+              prompt({
+                type: "list",
+                name: "downloadType",
+                message: startCase("choose download type") + "?",
+                choices: ["all", "custom"], //["تحميل الكل", "تخصيص"],
+              }).then(async ({ downloadType }) => {
+                if (downloadType === "custom") {
+                  prompt({
+                    type: "checkbox",
+                    name: "files",
+                    message: startCase("choose to download") + "?",
+                    choices: list,
+                  }).then(async ({ files }) => {
+                    await downloadFunction(
+                      browser,
+                      list.filter((el) => files.includes(el.name)),
+                      exact,
+                      outputDir,
+                    );
+                  });
+                } else {
+                  await downloadFunction(browser, list, exact, outputDir);
+                }
+              });
+
+              // await downloadFunction(browser, list, exact, outputDir, false);
             }
           } else {
             console.log(startCase("something went wrong, please try again"));
