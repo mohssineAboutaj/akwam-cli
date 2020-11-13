@@ -23,7 +23,7 @@ const URL = "https://old.akwam.co";
  * @param {Boolean} isFilm
  * @param {Number} index
  */
-async function downloadFunction(
+async function downloader(
   browser,
   list,
   parent,
@@ -31,31 +31,6 @@ async function downloadFunction(
   isFilm = false,
   index = 0,
 ) {
-  // // if not a movie show rawlist
-  // if (isFilm) {
-  //   const types = [
-  //     {
-  //       name: startCase("download all | تحميل الكل"),
-  //       value: "all",
-  //     },
-  //     {
-  //       name: startCase("custom download | تخصيص"),
-  //       value: "custom",
-  //     },
-  //   ];
-  //   prompt([
-  //     {
-  //       type: "list",
-  //       name: "downloadType",
-  //       message: startCase("choose download type") + "?",
-  //       choices: types,
-  //       filter: (c) => {
-  //         return types.find((el) => el.name === c);
-  //       },
-  //     },
-  //   ]);
-  // }
-
   // start download
   if (index < list.length) {
     let link = list[index];
@@ -128,6 +103,57 @@ async function downloadFunction(
   } else {
     await console.log(green(startCase("download finish")));
     await browser.close();
+  }
+}
+
+/**
+ * @description the download function that show user a list of choices to customize his downloads
+ *
+ * @param {Puppeteer.Launch} browser
+ * @param {Array} list
+ * @param {Object} parent
+ * @param {String} outputDir
+ * @param {Boolean} isFilm
+ * @param {Number} index
+ */
+async function downloadFunction(
+  browser,
+  list,
+  parent,
+  outputDir = "./",
+  isFilm = false,
+  index = 0,
+) {
+  // if not a movie show rawlist
+  if (!isFilm) {
+    prompt({
+      type: "list",
+      name: "downloadType",
+      message: startCase("choose download type") + "?",
+      choices: ["all", "custom"], //["تحميل الكل", "تخصيص"],
+    }).then(async ({ downloadType }) => {
+      if (downloadType === "custom") {
+        prompt({
+          type: "checkbox",
+          name: "files",
+          message: startCase("choose to download") + "?",
+          choices: list,
+        }).then(async ({ files }) => {
+          await downloader(
+            browser,
+            list.filter((el) => files.includes(el.name)),
+            parent,
+            outputDir,
+            isFilm,
+            index,
+          );
+        });
+      } else {
+        await downloader(browser, list, parent, outputDir, isFilm, index);
+      }
+    });
+  } else {
+    await downloader(browser, list, parent, outputDir, isFilm, index);
   }
 }
 
