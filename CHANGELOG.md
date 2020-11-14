@@ -1,5 +1,8 @@
 # akwam-cli / CHANGELOG
 
+## v1.0.22 14-Nov-2020 23:39 (GMT+1)
+- fix an issue in movie download
+
 ## v1.0.21 14-Nov-2020 18:40 (GMT+1)
 - fix an issue in download
 
