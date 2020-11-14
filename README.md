@@ -26,9 +26,9 @@ yarn global add akwam-cli
 ```
 
 ## Usage
-- Move to an empty directory (**Downloads** for example)
+- Move To An Empty Directory (**cd ~/Downloads** For Example)
 - Run `akwam-cli`
-- Follow steps
+- Follow Steps
 - Enjoy
 
 ## CHANGELOG
