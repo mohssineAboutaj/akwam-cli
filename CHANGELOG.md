@@ -1,5 +1,8 @@
 # akwam-cli / CHANGELOG
 
+## v1.0.21 14-Nov-2020 18:40 (GMT+1)
+- fix an issue in download
+
 ## v1.0.2 14-Nov-2020 16:15 (GMT+1)
 - deprecated *puppeteer* and replaced by *axios* & *cheerio*
 - re-write the project without *puppeteer* 
