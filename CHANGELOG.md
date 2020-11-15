@@ -1,5 +1,8 @@
 # akwam-cli / CHANGELOG
 
+## v1.0.24 15-Nov-2020 21:52 (GMT+1)
+- fix an issue if loop
+
 ## v1.0.23 14-Nov-2020 23:57 (GMT+1)
 - fix an issue in custom serie download
 
