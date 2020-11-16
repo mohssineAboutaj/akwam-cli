@@ -1,5 +1,8 @@
 # akwam-cli / CHANGELOG
 
+## v1.0.25 16-Nov-2020 14:37 (GMT+1)
+- add downloading count
+
 ## v1.0.24 15-Nov-2020 21:52 (GMT+1)
 - fix an issue if loop
 
