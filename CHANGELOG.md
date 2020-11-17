@@ -1,5 +1,12 @@
 # akwam-cli / CHANGELOG
 
+## v1.0.26 17-Nov-2020 00:23 (GMT+1)
+- fix an issue in connection
+- move CLI function to a separate file
+- separate main function as a separated functions
+- re-structrured project functionalites
+- make *helpers* exported for the external use
+
 ## v1.0.25 16-Nov-2020 14:37 (GMT+1)
 - add downloading count
 
