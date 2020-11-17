@@ -1,5 +1,10 @@
 # akwam-cli / CHANGELOG
 
+## v1.0.27 17-Nov-2020 16:50 (GMT+1)
+- switch CLI to promise syntax
+- fix _undefined_ issue
+- add *Jest* for basics *Unit testing*
+
 ## v1.0.26 17-Nov-2020 00:23 (GMT+1)
 - fix an issue in connection
 - move CLI function to a separate file

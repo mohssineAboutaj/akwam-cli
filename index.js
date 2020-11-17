@@ -19,9 +19,7 @@ const {
 const CLI = require("./lib/cli");
 
 // run CLI
-(async () => {
-  await CLI();
-})();
+CLI();
 
 // exports for external use
 module.exports = {
