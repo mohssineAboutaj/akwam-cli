@@ -1,9 +1,13 @@
 # akwam-cli / CHANGELOG
 
+## v1.0.28 18-Nov-2020 17:30 (GMT+1)
+- add [ESlint](https://eslint.org/) for code roles
+- switch CLI for more promise syntax
+
 ## v1.0.27 17-Nov-2020 16:50 (GMT+1)
 - switch CLI to promise syntax
 - fix _undefined_ issue
-- add *Jest* for basics *Unit testing*
+- add [Jest](https://jestjs.io/) for basics *Unit testing*
 
 ## v1.0.26 17-Nov-2020 00:23 (GMT+1)
 - fix an issue in connection

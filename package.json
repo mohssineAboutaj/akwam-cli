@@ -1,10 +1,12 @@
 {
   "name": "akwam-cli",
-  "version": "1.0.27",
+  "version": "1.0.28",
   "description": "A CLI (Command Line based) project to download movies, series, ... from https://old.akwam.co",
   "scripts": {
     "start": "node index",
-    "test": "jest"
+    "test": "jest",
+    "lint": "./node_modules/eslint/bin/eslint.js .",
+    "lint:fix": "./node_modules/eslint/bin/eslint.js . --fix"
   },
   "main": "index.js",
   "bin": {
@@ -14,6 +16,7 @@
   "license": "MIT",
   "private": false,
   "devDependencies": {
+    "eslint": "^7.13.0",
     "jest": "^26.6.3"
   },
   "dependencies": {
