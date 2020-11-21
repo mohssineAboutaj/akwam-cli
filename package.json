@@ -5,8 +5,8 @@
   "scripts": {
     "start": "node index",
     "test": "jest",
-    "lint": "./node_modules/eslint/bin/eslint.js .",
-    "lint:fix": "./node_modules/eslint/bin/eslint.js . --fix"
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "main": "index.js",
   "bin": {

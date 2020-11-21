@@ -11,5 +11,6 @@ module.exports = {
   },
   rules: {
     "prefer-const": ["warn"],
+    console: ["off"],
   },
 };
