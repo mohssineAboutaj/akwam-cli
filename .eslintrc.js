@@ -10,11 +10,6 @@ module.exports = {
     ecmaVersion: 12,
   },
   rules: {
-    "prefer-const": ["error"],
+    "prefer-const": ["warn"],
   },
-  overrides: [
-    {
-      files: ["__tests__/*.js"],
-    },
-  ],
 };
