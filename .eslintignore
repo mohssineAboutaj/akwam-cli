@@ -1,2 +1,4 @@
 node_modules/
 __tests__/
+lib/
+rollup.config.js

@@ -1,5 +1,3 @@
-'use strict';
-
 // Dependencies
 const { prompt } = require("inquirer");
 const { isEmpty, startCase } = require("lodash");
