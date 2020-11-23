@@ -1,0 +1,18 @@
+# dir
+node_modules/
+src/
+dist/
+__tests__/
+
+# locks & logs
+*.lock
+*.log
+
+# files
+CHANGELOG.md
+jest.config.js
+.eslintignore
+.eslintrc.js
+rollup.config.js
+.editorconfig
+.prettierrc

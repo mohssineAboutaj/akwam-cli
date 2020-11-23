@@ -1,5 +1,9 @@
 # akwam-cli / CHANGELOG
 
+## v1.0.33 23-Nov-2020 21:36 (GMT+1)
+
+- add `.npmignore`
+
 ## v1.0.32 23-Nov-2020 21:21 (GMT+1)
 
 - Add [Rollup](https://rollupjs.org/guide/en/) for future changes

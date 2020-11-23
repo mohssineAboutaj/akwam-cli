@@ -1,6 +1,6 @@
 {
   "name": "akwam-cli",
-  "version": "1.0.32",
+  "version": "1.0.33",
   "description": "A CLI (Command Line based) project to download movies, series, ... from https://old.akwam.co",
   "scripts": {
     "start": "node index",
