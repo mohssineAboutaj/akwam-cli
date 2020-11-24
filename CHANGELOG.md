@@ -1,8 +1,13 @@
 # akwam-cli / CHANGELOG
 
+## v1.0.34 24-Nov-2020 14:27 (GMT+1)
+
+- Separate functions in different files
+- Change `bin` location
+
 ## v1.0.33 23-Nov-2020 21:36 (GMT+1)
 
-- add `.npmignore`
+- Add `.npmignore`
 
 ## v1.0.32 23-Nov-2020 21:21 (GMT+1)
 

@@ -1,16 +1,15 @@
 // Dependencies
 const { prompt } = require("inquirer");
 const { isEmpty, startCase } = require("lodash");
+const { setMsgColor, isFilm } = require("./helpers");
+const { downloadFunction } = require("./downlaod");
 const {
-  downloadFunction,
-  setMsgColor,
-  isFilm,
   getSearchResults,
   getPrimaryInfo,
   getMovieByQuality,
   filterAndSortChoosedList,
   redefineListDownloadLink,
-} = require("./helpers");
+} = require("./fetch");
 
 /**
  * @description CLI function contain everting you need to start this program in CLI

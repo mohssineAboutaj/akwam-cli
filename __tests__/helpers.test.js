@@ -1,5 +1,6 @@
 // props & methods to test
-const { setMsgColor, isFilm, URL, fetchAndParse } = require("../lib/helpers");
+const { setMsgColor, isFilm, URL } = require("../src/helpers");
+const { fetchAndParse } = require("../src/fetch");
 
 // test helpers
 const { isString } = require("lodash");

@@ -1,33 +1,25 @@
-#!/usr/bin/env node
+/**
+ * @name index
+ *
+ * @description just an exporter to use these modules in external files/projects
+ *
+ */
 
-// to export
+// import/require
+const { URL, isFilm } = require("./lib/helpers");
 const {
-  URL,
-  downloadFunction,
-  setMsgColor,
   fetchAndParse,
   fetchWithHeader,
-  isFilm,
   getSearchResults,
   getPrimaryInfo,
   getMovieByQuality,
   filterAndSortChoosedList,
   redefineListDownloadLink,
-} = require("./lib/helpers");
+} = require("./lib/fetch");
 
-// import CLI
-const CLI = require("./lib/cli");
-
-// run CLI
-(async () => {
-  await CLI();
-})();
-
-// exports for external use
+// exportuse
 module.exports = {
   URL,
-  downloadFunction,
-  setMsgColor,
   fetchAndParse,
   fetchWithHeader,
   isFilm,
