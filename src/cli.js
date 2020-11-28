@@ -1,7 +1,10 @@
 // Dependencies
 const { prompt } = require("inquirer");
-const { isEmpty, startCase } = require("lodash");
+const { isEmpty, startCase, lowerCase } = require("lodash");
 const { setMsgColor, isFilm } = require("./helpers");
+const writeJson = require("write-json");
+const { resolve, join } = require("path");
+
 const { downloadFunction } = require("./downlaod");
 const {
   getSearchResults,
@@ -10,6 +13,43 @@ const {
   filterAndSortChoosedList,
   redefineListDownloadLink,
 } = require("./fetch");
+
+/**
+ * @description get, save, download file(s)
+ *
+ * @param {Array} list
+ * @param {Object} exact
+ * @param {String} out
+ */
+function preDownload(list, exact, out) {
+  prompt({
+    type: "list",
+    name: "pre",
+    choices: [startCase("download"), startCase("print"), startCase("save")],
+    message: startCase("choose the last action to do with the URL(s)"),
+  })
+    .then(({ pre }) => {
+      if (lowerCase(pre) === "download") {
+        downloadFunction(list, exact, out);
+      } else if (lowerCase(pre) === "save") {
+        const savePath = resolve(out);
+        // save output urls as json format
+        writeJson(`${join(savePath, exact.name)}.json`, list, (err) => {
+          if (err) {
+            console.log(err);
+          } else {
+            setMsgColor("output saved successfuly in", "success");
+            console.log("[#] " + savePath);
+          }
+        });
+      } else {
+        console.log(list);
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
 
 /**
  * @description CLI function contain everting you need to start this program in CLI
@@ -40,10 +80,10 @@ function CLI() {
       choices: [startCase("quick search"), startCase("advanced search")],
       message: startCase("Choose the search type"),
       filter: (v) => {
-        if (v == "quick search") {
-          return "quick";
-        } else {
+        if (lowerCase(v) === "advanced search") {
           return "advanced";
+        } else {
+          return "quick";
         }
       },
     },
@@ -107,7 +147,7 @@ function CLI() {
                             getMovieByQuality(list, videoQuality)
                               .then((list) => {
                                 // start downloading
-                                downloadFunction([list], exact, outputDir);
+                                preDownload([list], exact, outputDir);
                               })
                               .catch((err) => {
                                 console.log(err);
@@ -149,7 +189,7 @@ function CLI() {
                                   filterAndSortChoosedList(files, list)
                                     .then((list) => {
                                       // start downloading
-                                      downloadFunction(list, exact, outputDir);
+                                      preDownload(list, exact, outputDir);
                                     })
                                     .catch((err) => {
                                       console.log(err);
@@ -160,14 +200,14 @@ function CLI() {
                                 });
                             } else {
                               setMsgColor(
-                                "please wait until start downloading",
+                                "please wait until start downloading...",
                                 "info",
                               );
                               // re-define download url
                               redefineListDownloadLink(list)
                                 .then((list) => {
                                   // start downloading
-                                  downloadFunction(list, exact, outputDir);
+                                  preDownload(list, exact, outputDir);
                                 })
                                 .catch((err) => {
                                   console.log(err);

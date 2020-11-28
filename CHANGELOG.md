@@ -1,5 +1,10 @@
 # akwam-cli / CHANGELOG
 
+## v1.0.35 28-Nov-2020 16:48 (GMT+1)
+
+- Add _preDownload_ function
+- Add an options to let user choose to download or save files
+
 ## v1.0.34 24-Nov-2020 14:27 (GMT+1)
 
 - Separate functions in different files

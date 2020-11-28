@@ -1,14 +1,14 @@
 {
   "name": "akwam-cli",
-  "version": "1.0.34",
+  "version": "1.0.35",
   "description": "A CLI (Command Line based) project to download movies, series, ... from https://old.akwam.co",
   "scripts": {
     "start": "node bin/akwam-cli.js",
     "build": "rm -rf lib/ && jest && rollup -c",
     "dev": "rm -rf lib/ && jest && rollup -w -c",
-    "test": "node node_modules/jest/bin/jest.js",
-    "lint": "node node_modules/eslint/bin/eslint.js .",
-    "lint:fix": "node node_modules/eslint/bin/eslint.js . --fix"
+    "test": "jest",
+    "lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix"
   },
   "main": "bin/akwam-cli.js",
   "bin": {
@@ -30,7 +30,8 @@
     "colors": "^1.4.0",
     "download-file-with-progressbar": "^1.2.3",
     "inquirer": "^7.3.3",
-    "lodash": "^4.17.20"
+    "lodash": "^4.17.20",
+    "write-json": "^3.0.1"
   },
   "repository": {
     "type": "git",
