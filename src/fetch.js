@@ -89,6 +89,7 @@ async function getPrimaryInfo(href) {
   return Array.from($(".direct_link_box"), (element) => {
     return {
       href: $(element).find("a").attr("href").trim(),
+      poster: $("img.main_img").attr("src").trim(),
       name:
         $(element).find("h2").text().trim() ||
         startCase($(element).find(".sub_file_title").html().split("<i")[0]),

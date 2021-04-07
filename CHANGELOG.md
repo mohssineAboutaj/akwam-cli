@@ -1,5 +1,9 @@
 # akwam-cli / CHANGELOG
 
+## v1.0.36 4-apr-2021 17:00 (GMT+1)
+
+- get poster url
+
 ## v1.0.35 28-Nov-2020 16:48 (GMT+1)
 
 - Add _preDownload_ function
